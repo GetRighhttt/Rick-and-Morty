@@ -1,14 +1,14 @@
 # Rick and Morty Android MVVM
 
-An Android pet project for browsing, searching, filtering, and saving characters from the [Rick and Morty API](https://rickandmortyapi.com/).
+An Android learning project for browsing, searching, filtering, and saving characters from the [Rick and Morty API](https://rickandmortyapi.com/).
 
-This repository started as an early MVVM learning project and has since been refreshed in three focused areas:
+I started this project to learn MVVM. Later updates added:
 
-- A production-shaped Paging 3 data flow with one filter state, one paging stream, lifecycle-aware collection, explicit load states, and tested page keys.
-- Consistent edge-to-edge layouts with explicit status bar, navigation bar, display cutout, and keyboard inset handling.
-- A cohesive Material 3 redesign with a portal-inspired day/night palette, aligned character cards, clearer screen hierarchy, and polished empty and loading states.
+- Paging 3 with shared filter state, lifecycle-aware collection, loading and error states, and tests for page keys.
+- Edge-to-edge layouts with status-bar, navigation-bar, display-cutout, and keyboard insets.
+- Material 3 layouts with light and dark themes, character cards, and empty and loading states.
 
-It remains intentionally small and View-based, making it useful as a reference when migrating an older Android application without also introducing Compose or a broad build-system upgrade.
+The app uses Android Views. It is a reference for adding pagination and inset handling to an existing Views project.
 
 ## Screenshots
 
@@ -80,9 +80,9 @@ repeatOnLifecycle(STARTED)
 PagingDataAdapter.submitData()
 ```
 
-Important details demonstrated here:
+The paging implementation follows these rules:
 
-- `flatMapLatest` guarantees that only the newest search/filter combination owns the list.
+- `flatMapLatest` cancels the previous paging stream when the search query or gender filter changes.
 - `cachedIn(viewModelScope)` is applied after switching paging streams.
 - The Activity has one PagingData collector instead of separate observers for each filter.
 - `PagingDataAdapter` and `DiffUtil` own list updates; `notifyDataSetChanged()` is not used.
@@ -90,9 +90,9 @@ Important details demonstrated here:
 - Refresh errors are rendered by the screen, while prepend and append errors are rendered by `LoadStateAdapter` instances.
 - Opening Details or Saved does not destroy the list Activity, allowing the ViewModel cache and scroll state to remain available.
 
-The Rick and Morty API returns HTTP 404 when a character filter has no matches. This project intentionally converts that API-specific response into an empty terminal page. Do not apply that rule generically in a production API client unless the service contract defines 404 as an empty search result.
+The Rick and Morty API returns HTTP 404 when a character filter has no matches. The paging source converts that response into an empty final page. This behavior depends on the API's search contract; other services may use 404 for a different error.
 
-## Edge-to-edge approach
+## Edge-to-edge layouts
 
 Every Activity calls `enableEdgeToEdge()` and then applies insets to the view that owns each safe area:
 
@@ -165,7 +165,7 @@ To build and test together:
 
 ## What to change for production
 
-This repository demonstrates the Paging and inset patterns, but it is not a production template as-is. Before adopting the full project setup, consider the following:
+Before using this project in a production app:
 
 - Use a `RemoteMediator` and a database-backed source of truth if paged content must work offline.
 - Replace the local profile-name screen with real authentication if identity is required.
@@ -174,9 +174,9 @@ This repository demonstrates the Paging and inset patterns, but it is not a prod
 - Configure real release signing; this project currently uses debug signing for the release build type.
 - Add instrumentation/UI tests for loading, retry, rotation, keyboard, cutout, gesture-navigation, and three-button-navigation behavior.
 - Review and upgrade the Gradle, Kotlin, KSP, AndroidX, networking, and DI versions as a separate migration.
-- Remove unused legacy dependencies and classes after confirming they are not needed by downstream experiments.
+- Check whether older dependencies and classes are still used before removing them.
 
-The current build still reports legacy plugin and deprecation warnings. Those are deliberately outside the Paging 3 and edge-to-edge work documented here.
+The build still has legacy plugin and deprecation warnings. The Paging 3 and edge-to-edge updates did not include a toolchain migration.
 
 ## Demo videos
 
@@ -184,7 +184,7 @@ The current build still reports legacy plugin and deprecation warnings. Those ar
 - [Local profile name and saved-character persistence](https://github.com/GetRighhttt/RickAndMortyAndroidMVVM/assets/105057858/a19c935f-0326-484b-abe4-7ec156bab42d)
 - [YouTube, website, and Android share intents](https://github.com/GetRighhttt/RickAndMortyAndroidMVVM/assets/105057858/e248d78f-b601-487b-963f-ebdcfc50e541)
 
-The videos show earlier versions of the project, so small UI and behavior differences may exist.
+The videos show earlier versions of the app.
 
 ## Contributing
 
@@ -193,7 +193,7 @@ For changes intended as reference material:
 1. Keep the sample focused and explain non-obvious lifecycle or API-contract decisions.
 2. Add or update tests for PagingSource keys, errors, and terminal-page behavior.
 3. Run `./gradlew testDebugUnitTest assembleDebug`.
-4. Open a pull request describing both the behavior change and the production lesson it demonstrates.
+4. Open a pull request describing the behavior change and the reason for it.
 
 ## Attribution
 
@@ -201,4 +201,4 @@ Character data and images are provided by the [Rick and Morty API](https://ricka
 
 ## Contact
 
-Questions and comments: **stefanbusiness95@gmail.com**
+Questions and comments: stefanbusiness95@gmail.com
