@@ -1,0 +1,10 @@
+<?xml version="1.0" encoding="utf-8"?>
+<menu xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto">
+    <item
+        android:id="@+id/open_collection"
+        android:icon="@drawable/baseline_list_24"
+        android:title="@string/saved_toolbar_title"
+        app:iconTint="@color/portal_on_surface"
+        app:showAsAction="always" />
+</menu>

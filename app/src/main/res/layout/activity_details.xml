@@ -43,54 +43,54 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:orientation="vertical"
-            android:paddingStart="16dp"
+            android:paddingBottom="24dp"
             android:paddingEnd="16dp"
-            android:paddingBottom="24dp">
+            android:paddingStart="16dp">
 
             <com.google.android.material.card.MaterialCardView
                 android:layout_width="match_parent"
-                android:layout_height="320dp"
+                android:layout_height="wrap_content"
                 android:layout_marginTop="8dp"
-                app:cardCornerRadius="28dp"
+                app:cardCornerRadius="24dp"
                 app:cardElevation="0dp"
                 app:strokeColor="@color/portal_outline"
                 app:strokeWidth="1dp">
 
-                <androidx.appcompat.widget.AppCompatImageView
-                    android:id="@+id/iv_Image"
+                <androidx.constraintlayout.widget.ConstraintLayout
                     android:layout_width="match_parent"
-                    android:layout_height="match_parent"
-                    android:contentDescription="@string/character_image"
-                    android:scaleType="centerCrop"
-                    tools:src="@drawable/rick_and_morty" />
+                    android:layout_height="wrap_content">
+                    <androidx.appcompat.widget.AppCompatImageView
+                        android:id="@+id/iv_Image"
+                        android:layout_width="0dp"
+                        android:layout_height="0dp"
+                        android:background="@color/portal_surface_variant"
+                        android:contentDescription="@string/character_image"
+                        android:scaleType="centerCrop"
+                        app:layout_constraintBottom_toBottomOf="parent"
+                        app:layout_constraintDimensionRatio="1:1"
+                        app:layout_constraintEnd_toEndOf="parent"
+                        app:layout_constraintStart_toStartOf="parent"
+                        app:layout_constraintTop_toTopOf="parent"
+                        tools:src="@drawable/rick_and_morty" />
+                </androidx.constraintlayout.widget.ConstraintLayout>
 
             </com.google.android.material.card.MaterialCardView>
-
-            <com.google.android.material.textview.MaterialTextView
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_marginTop="24dp"
-                android:text="@string/character_profile"
-                android:textAllCaps="true"
-                android:textColor="@color/portal_primary"
-                android:textSize="12sp"
-                android:textStyle="bold" />
 
             <com.google.android.material.textview.MaterialTextView
                 android:id="@+id/tv_name"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:layout_marginTop="4dp"
+                android:layout_marginTop="20dp"
                 android:textColor="@color/portal_on_surface"
-                android:textSize="32sp"
+                android:textSize="28sp"
                 android:textStyle="bold"
                 tools:text="Rick Sanchez" />
 
             <LinearLayout
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:layout_marginTop="8dp"
                 android:gravity="center_vertical"
+                android:layout_marginTop="8dp"
                 android:orientation="horizontal">
 
                 <com.google.android.material.textview.MaterialTextView
@@ -104,8 +104,8 @@
                 <View
                     android:layout_width="4dp"
                     android:layout_height="4dp"
-                    android:layout_marginHorizontal="10dp"
-                    android:background="@color/portal_primary" />
+                    android:background="@color/portal_primary"
+                    android:layout_marginHorizontal="10dp" />
 
                 <com.google.android.material.textview.MaterialTextView
                     android:id="@+id/tv_gender"
@@ -122,7 +122,7 @@
                 android:layout_height="wrap_content"
                 android:layout_marginTop="24dp"
                 app:cardBackgroundColor="@color/portal_surface"
-                app:cardCornerRadius="24dp"
+                app:cardCornerRadius="20dp"
                 app:cardElevation="0dp"
                 app:strokeColor="@color/portal_outline"
                 app:strokeWidth="1dp">
@@ -144,14 +144,12 @@
                     <LinearLayout
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
-                        android:layout_marginTop="20dp"
-                        android:baselineAligned="false"
-                        android:orientation="horizontal">
+                        android:layout_marginTop="16dp"
+                        android:orientation="vertical">
 
                         <LinearLayout
-                            android:layout_width="0dp"
+                            android:layout_width="match_parent"
                             android:layout_height="wrap_content"
-                            android:layout_weight="1"
                             android:orientation="vertical">
 
                             <com.google.android.material.textview.MaterialTextView
@@ -166,7 +164,7 @@
                                 android:layout_width="wrap_content"
                                 android:layout_height="wrap_content"
                                 android:layout_marginTop="4dp"
-                                android:textColor="@color/portal_alive"
+                                android:textColor="@color/portal_on_surface"
                                 android:textSize="18sp"
                                 android:textStyle="bold"
                                 tools:text="Alive" />
@@ -174,9 +172,9 @@
                         </LinearLayout>
 
                         <LinearLayout
-                            android:layout_width="0dp"
+                            android:layout_width="match_parent"
                             android:layout_height="wrap_content"
-                            android:layout_weight="1"
+                            android:layout_marginTop="16dp"
                             android:orientation="vertical">
 
                             <com.google.android.material.textview.MaterialTextView
@@ -207,6 +205,34 @@
         </LinearLayout>
 
     </androidx.core.widget.NestedScrollView>
+
+    <LinearLayout
+        android:id="@+id/details_error"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:gravity="center"
+        android:layout_margin="32dp"
+        android:orientation="vertical"
+        android:visibility="gone"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@id/tool_bar_layout">
+        <com.google.android.material.textview.MaterialTextView
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:gravity="center"
+            android:text="@string/character_load_failed"
+            android:textColor="@color/portal_on_surface"
+            android:textSize="18sp" />
+        <com.google.android.material.button.MaterialButton
+            android:id="@+id/details_retry"
+            style="@style/Widget.RickAndMorty.PrimaryButton"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="16dp"
+            android:text="@string/retry" />
+    </LinearLayout>
 
     <ProgressBar
         android:id="@+id/pb_loading"

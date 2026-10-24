@@ -33,10 +33,10 @@
         android:layout_width="0dp"
         android:layout_height="wrap_content"
         android:orientation="vertical"
+        android:paddingBottom="14dp"
+        android:paddingEnd="20dp"
         android:paddingStart="20dp"
         android:paddingTop="12dp"
-        android:paddingEnd="20dp"
-        android:paddingBottom="14dp"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@id/tool_bar_layout">
@@ -44,16 +44,16 @@
         <com.google.android.material.textview.MaterialTextView
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:text="@string/saved_title"
+            android:text="@string/saved_section_title"
             android:textColor="@color/portal_on_surface"
-            android:textSize="28sp"
+            android:textSize="22sp"
             android:textStyle="bold" />
 
         <com.google.android.material.textview.MaterialTextView
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_marginTop="4dp"
-            android:text="@string/saved_subtitle"
+            android:text="@string/saved_gesture_hint"
             android:textColor="@color/portal_on_surface_variant"
             android:textSize="15sp" />
 
@@ -64,9 +64,9 @@
         android:layout_width="0dp"
         android:layout_height="0dp"
         android:clipToPadding="false"
-        android:paddingStart="10dp"
-        android:paddingEnd="10dp"
         android:paddingBottom="20dp"
+        android:paddingEnd="10dp"
+        android:paddingStart="10dp"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
@@ -77,8 +77,8 @@
         android:id="@+id/saved_empty_state"
         android:layout_width="0dp"
         android:layout_height="wrap_content"
-        android:layout_margin="36dp"
         android:gravity="center"
+        android:layout_margin="36dp"
         android:orientation="vertical"
         android:padding="24dp"
         android:visibility="gone"
@@ -89,6 +89,7 @@
         tools:visibility="visible">
 
         <com.google.android.material.textview.MaterialTextView
+            android:id="@+id/saved_empty_title"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:gravity="center"
@@ -98,13 +99,23 @@
             android:textStyle="bold" />
 
         <com.google.android.material.textview.MaterialTextView
+            android:id="@+id/saved_empty_message"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_marginTop="8dp"
             android:gravity="center"
+            android:layout_marginTop="8dp"
             android:text="@string/saved_empty_message"
             android:textColor="@color/portal_on_surface_variant"
             android:textSize="15sp" />
+
+        <com.google.android.material.button.MaterialButton
+            android:id="@+id/saved_retry"
+            style="@style/Widget.RickAndMorty.PrimaryButton"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="16dp"
+            android:text="@string/retry"
+            android:visibility="gone" />
 
     </LinearLayout>
 

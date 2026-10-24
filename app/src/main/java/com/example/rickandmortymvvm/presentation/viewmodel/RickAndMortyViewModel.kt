@@ -1,48 +1,55 @@
 package com.example.rickandmortymvvm.presentation.viewmodel
 
-import android.os.Parcelable
 import androidx.lifecycle.SavedStateHandle
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import androidx.paging.cachedIn
-import com.example.rickandmortymvvm.domain.repo.Repository
+import androidx.paging.map
+import com.example.rickandmortymvvm.domain.character.repository.CharacterRepository
+import com.example.rickandmortymvvm.presentation.character.mapper.toDomain
+import com.example.rickandmortymvvm.presentation.character.mapper.toUiModel
+import com.example.rickandmortymvvm.presentation.character.model.CharacterFilters
+import com.example.rickandmortymvvm.presentation.character.model.CharacterGender
 import dagger.hilt.android.lifecycle.HiltViewModel
+import javax.inject.Inject
 import kotlinx.coroutines.ExperimentalCoroutinesApi
 import kotlinx.coroutines.flow.StateFlow
 import kotlinx.coroutines.flow.flatMapLatest
-import kotlinx.parcelize.Parcelize
-import javax.inject.Inject
+import kotlinx.coroutines.flow.map
 
-enum class CharacterGender(val apiValue: String) {
-    ALL(""),
-    MALE("male"),
-    FEMALE("female")
-}
-
-@Parcelize
-data class CharacterFilters(
-    val query: String = "",
-    val gender: CharacterGender = CharacterGender.ALL
-) : Parcelable
-
+/**
+ * Owns restored browser inputs, cancels obsolete paging streams, and publishes UI characters.
+ *
+ * @author Stefan Bayne
+ * @since 2023-05-01
+ */
 @HiltViewModel
 @OptIn(ExperimentalCoroutinesApi::class)
-class RickAndMortyViewModel @Inject constructor(
-    private val repository: Repository,
+class RickAndMortyViewModel
+@Inject
+constructor(
+    private val repository: CharacterRepository,
     private val savedStateHandle: SavedStateHandle,
 ) : ViewModel() {
-
     val filters: StateFlow<CharacterFilters> =
         savedStateHandle.getStateFlow(FILTERS_KEY, CharacterFilters())
 
-    // A new filter cancels the previous Pager. Cache the resulting stream, not each filter branch.
-    val characters = filters.flatMapLatest { filters ->
-        repository.searchCharacters(filters.query, filters.gender.apiValue)
-    }.cachedIn(viewModelScope)
+    // Cache the stream after changing Pagers and mapping domain values for the UI.
+    val characters =
+        filters
+            .flatMapLatest { filters ->
+                repository.searchCharacters(filters.query, filters.gender.toDomain())
+            }
+            .map { page -> page.map { it.toUiModel() } }
+            .cachedIn(viewModelScope)
 
     fun searchCharacters(query: String) = updateFilters { it.copy(query = query.trim()) }
+
     fun filterByGender(gender: CharacterGender) = updateFilters { it.copy(gender = gender) }
-    fun showAllCharacters() { savedStateHandle[FILTERS_KEY] = CharacterFilters() }
+
+    fun showAllCharacters() {
+        savedStateHandle[FILTERS_KEY] = CharacterFilters()
+    }
 
     private fun updateFilters(transform: (CharacterFilters) -> CharacterFilters) {
         savedStateHandle[FILTERS_KEY] = transform(filters.value)

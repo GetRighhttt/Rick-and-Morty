@@ -3,40 +3,42 @@ package com.example.rickandmortymvvm.presentation.view
 import android.content.Context
 import android.view.LayoutInflater
 import android.view.ViewGroup
-import android.view.animation.AnimationUtils
 import androidx.recyclerview.widget.AsyncListDiffer
 import androidx.recyclerview.widget.DiffUtil
 import androidx.recyclerview.widget.RecyclerView
 import com.example.rickandmortymvvm.R
 import com.example.rickandmortymvvm.core.util.setImage
-import com.example.rickandmortymvvm.core.util.toDisplayLabel
 import com.example.rickandmortymvvm.databinding.RmListItemBinding
-import com.example.rickandmortymvvm.domain.model.RickAndMorty
+import com.example.rickandmortymvvm.presentation.character.model.CharacterUiModel
 
-class SavedCharactersAdapter(
-    private val context: Context
-) : RecyclerView.Adapter<SavedCharactersAdapter.ViewHolder>() {
+/**
+ * Binds locally saved characters to the same cards used by the directory.
+ *
+ * @author Stefan Bayne
+ * @since 2023-05-22
+ */
+class SavedCharactersAdapter(private val context: Context) :
+    RecyclerView.Adapter<SavedCharactersAdapter.ViewHolder>() {
 
     companion object {
 
-        private val diffCallback = object
-            : DiffUtil.ItemCallback<RickAndMorty>() {
+        private val diffCallback =
+            object : DiffUtil.ItemCallback<CharacterUiModel>() {
 
-            override fun areItemsTheSame(
-                oldItem: RickAndMorty,
-                newItem: RickAndMorty
-            ): Boolean {
-                return oldItem.id == newItem.id
+                override fun areItemsTheSame(
+                    oldItem: CharacterUiModel,
+                    newItem: CharacterUiModel,
+                ): Boolean {
+                    return oldItem.id == newItem.id
+                }
+
+                override fun areContentsTheSame(
+                    oldItem: CharacterUiModel,
+                    newItem: CharacterUiModel,
+                ): Boolean {
+                    return oldItem == newItem
+                }
             }
-
-            override fun areContentsTheSame(
-                oldItem: RickAndMorty,
-                newItem: RickAndMorty
-            ): Boolean {
-                return oldItem == newItem
-            }
-        }
-
     }
 
     /*
@@ -46,22 +48,24 @@ class SavedCharactersAdapter(
 
     inner class ViewHolder(private val binding: RmListItemBinding) :
         RecyclerView.ViewHolder(binding.root) {
-        fun bind(rmUser: RickAndMorty) {
+        fun bind(rmUser: CharacterUiModel) {
             binding.apply {
                 rmFullName.text = rmUser.name
-                rmStatus.text = rmUser.status.toDisplayLabel()
-                rmSpecies.text = context.getString(
-                    R.string.character_summary,
-                    rmUser.species,
-                    rmUser.gender
-                )
-                rmImage.contentDescription = context.getString(
-                    R.string.character_image_description,
-                    rmUser.name
-                )
+                rmStatus.text = rmUser.status
+                rmSpecies.text =
+                    context.getString(
+                        R.string.character_summary,
+                        rmUser.species,
+                        rmUser.gender,
+                    )
+                rmImage.contentDescription =
+                    context.getString(
+                        R.string.character_image_description,
+                        rmUser.name,
+                    )
 
                 // use Glide extension function to read in image
-                rmImage.setImage(rmUser.image, rmImage)
+                rmImage.setImage(rmUser.imageUrl, rmImage)
                 root.setOnClickListener {
                     onItemClickListener?.let {
                         it(rmUser)
@@ -69,25 +73,22 @@ class SavedCharactersAdapter(
                 }
             }
         }
-
-        val rmListItem = binding.rmListItem
     }
 
     /*
     Item click listener variable.
     */
-    private var onItemClickListener: ((RickAndMorty) -> Unit)? = null
+    private var onItemClickListener: ((CharacterUiModel) -> Unit)? = null
 
     /*
     Setter method for the onItemClickListener.
     */
-    fun setOnItemClickListener(listener: ((RickAndMorty) -> Unit)?) {
+    fun setOnItemClickListener(listener: ((CharacterUiModel) -> Unit)?) {
         onItemClickListener = listener
     }
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): ViewHolder {
-        val binding = RmListItemBinding
-            .inflate(LayoutInflater.from(parent.context), parent, false)
+        val binding = RmListItemBinding.inflate(LayoutInflater.from(parent.context), parent, false)
         return ViewHolder(binding)
     }
 
@@ -96,8 +97,5 @@ class SavedCharactersAdapter(
     override fun onBindViewHolder(holder: ViewHolder, position: Int) {
         val character = differ.currentList[position]
         holder.bind(character)
-        holder.rmListItem.startAnimation(
-            AnimationUtils.loadAnimation(holder.itemView.context, R.anim.favorite_anim)
-        )
     }
 }

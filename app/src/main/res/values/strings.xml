@@ -37,7 +37,7 @@
     <string name="email">Email</string>
     <string name="forget">FORGET</string>
     <string name="name_login">Name</string>
-    <string name="enter_name">Enter Name</string>
+    <string name="enter_name">Your name</string>
     <string name="rick_morty_page">Rick and Morty Website</string>
     <string name="youtube">Youtube</string>
     <string name="explore_title">Explore the multiverse</string>
@@ -64,4 +64,24 @@
     <string name="character_summary">%1$s · %2$s</string>
     <string name="character_image_description">Portrait of %1$s</string>
     <string name="welcome_back">Welcome back, %1$s!</string>
+    <string name="all_characters">All characters</string>
+    <string name="filter_male">Male</string>
+    <string name="filter_female">Female</string>
+    <string name="saved_section_title">Keep your favorites close</string>
+    <string name="saved_gesture_hint">Swipe a character to remove it. You can undo afterward.</string>
+    <string name="more_from_multiverse">More from the multiverse</string>
+    <string name="save_character_title">Save character</string>
+    <string name="save_character_prompt">Add this character to your collection?</string>
+    <string name="save">Save</string>
+    <string name="cancel">Cancel</string>
+    <string name="undo">Undo</string>
+    <string name="character_saved">Character saved to your collection.</string>
+    <string name="character_save_failed">Could not save this character. Try again.</string>
+    <string name="character_load_failed">Could not load this character.</string>
+    <string name="saved_load_failed">Could not load your collection.</string>
+    <string name="collection_update_failed">Could not update your collection. Try again.</string>
+    <string name="character_removed">%1$s removed from your collection.</string>
+    <string name="named_collection">%1$s\'s collection</string>
+    <string name="clear_collection_title">Clear your collection?</string>
+    <string name="clear_collection_prompt">This removes all saved characters.</string>
 </resources>

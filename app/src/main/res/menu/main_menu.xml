@@ -1,70 +1,29 @@
 <?xml version="1.0" encoding="utf-8"?>
-<menu xmlns:android="http://schemas.android.com/apk/res/android"
-    xmlns:app="http://schemas.android.com/apk/res-auto"
-    xmlns:tools="http://schemas.android.com/tools"
-    tools:showIn="navigation_view">
-
-    <group android:checkableBehavior="single">
-        <item android:title="@string/profile">
-            <menu>
-
-                <item
-                    android:id="@+id/nav_home"
-                    android:icon="@drawable/baseline_home_24"
-                    android:title="@string/home" />
-                <item
-                    android:id="@+id/nav_account"
-                    android:icon="@drawable/baseline_person_24"
-                    android:title="@string/rick_morty_page" />
-                <item
-                    android:id="@+id/nav_share"
-                    android:icon="@drawable/baseline_share_24"
-                    android:title="@string/share" />
-                <item
-                    android:id="@+id/nav_youtube"
-                    android:icon="@drawable/baseline_ondemand_video_24"
-                    android:title="@string/youtube" />
-
-            </menu>
-        </item>
+<menu xmlns:android="http://schemas.android.com/apk/res/android">
+    <group android:id="@+id/directory_navigation">
+        <item
+            android:id="@+id/nav_home"
+            android:icon="@drawable/baseline_home_24"
+            android:title="@string/all_characters" />
+        <item
+            android:id="@+id/nav_list"
+            android:icon="@drawable/baseline_list_24"
+            android:title="@string/saved_toolbar_title" />
     </group>
-
-    <group android:checkableBehavior="single">
-        <item android:title="@string/characters">
-            <menu>
-
-                <item
-                    android:id="@+id/nav_list"
-                    android:icon="@drawable/baseline_list_24"
-                    android:title="@string/character_list" />
-                <item
-                    android:id="@+id/nav_male"
-                    android:icon="@drawable/baseline_male_24"
-                    android:title="@string/male" />
-                <item
-                    android:id="@+id/nav_female"
-                    android:icon="@drawable/baseline_female_24"
-                    android:title="@string/female" />
-
-            </menu>
-        </item>
-    </group>
-
-    <group android:checkableBehavior="single">
-        <item android:title="@string/rating">
-            <menu>
-
-                <item
-                    android:id="@+id/nav_thumbs_up"
-                    android:icon="@drawable/baseline_thumb_up_24"
-                    android:title="@string/like" />
-                <item
-                    android:id="@+id/nav_rate"
-                    android:icon="@drawable/baseline_star_rate_24"
-                    android:title="@string/rate_rates" />
-
-            </menu>
-        </item>
-    </group>
-
+    <item android:title="@string/more_from_multiverse">
+        <menu>
+            <item
+                android:id="@+id/nav_account"
+                android:icon="@drawable/baseline_person_24"
+                android:title="@string/rick_morty_page" />
+            <item
+                android:id="@+id/nav_youtube"
+                android:icon="@drawable/baseline_ondemand_video_24"
+                android:title="@string/youtube" />
+            <item
+                android:id="@+id/nav_share"
+                android:icon="@drawable/baseline_share_24"
+                android:title="@string/share" />
+        </menu>
+    </item>
 </menu>
