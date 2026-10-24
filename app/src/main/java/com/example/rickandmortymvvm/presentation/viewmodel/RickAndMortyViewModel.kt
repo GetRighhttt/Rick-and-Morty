@@ -25,9 +25,7 @@ import kotlinx.coroutines.flow.map
  */
 @HiltViewModel
 @OptIn(ExperimentalCoroutinesApi::class)
-class RickAndMortyViewModel
-@Inject
-constructor(
+class RickAndMortyViewModel @Inject constructor(
     private val repository: CharacterRepository,
     private val savedStateHandle: SavedStateHandle,
 ) : ViewModel() {
